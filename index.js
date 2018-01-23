@@ -42,13 +42,12 @@ ws.router.mount('/', false, function(request) {
     });
 });
 
-
-ws.router.mount('/about', false, function(request) {
+ws.router.mount(/\/ocppj\/?.*/g, false, function(request) {
     var cookies = [
         {
-            name: 'TestCookie',
+            name: 'OCPPj-Cookie',
             value: 'CookieValue' + Math.floor(Math.random()*1000),
-            path: '/about',
+            path: '/ocppj/',
             secure: false,
             maxage: 5000,
             httponly: true
@@ -68,6 +67,7 @@ ws.router.mount('/about', false, function(request) {
             {
                 //var data = JSON.parse(message.utf8Data);
                 console.log(entities.encode(message.utf8Data))
+                connection.sendUTF(entities.encode(`You said: ${message.utf8Data}`));
             }
         }
     });
